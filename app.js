@@ -1,11 +1,28 @@
 const BlockChain = require('./block_chain');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-var SU_PILVI = new BlockChain();
+const app = express();
+const SU_PILVI = new BlockChain();
 
-console.log("Mining 1st block");
+app.use(bodyParser.json());
 
-SU_PILVI.addBlock({"sample":"sample"});
+app.post('/new_transaction',(req,res)=>{
+    var body = req.body;
+    SU_PILVI.addBlock(body);
+    res.send(200);
+})
 
-console.log("Mining 2nd block");
+app.get('/chains',(req,res)=>{
+    res.send(SU_PILVI.printAll())
+})
 
-SU_PILVI.addBlock({"sample":"11"});
+app.post('/add_peers',(req,res)=>{
+
+})
+
+// SU_PILVI.addBlock({"sample":"sample"});
+
+// SU_PILVI.addBlock({"sample":"11"});
+
+// SU_PILVI.printAll()
